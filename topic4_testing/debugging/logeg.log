@@ -1,0 +1,5 @@
+2026-09-30 00:16:32,463 INFO  10 divide by 2 is 5.0
+2026-09-30 00:16:32,463 INFO Divide by zero error
+2026-09-30 00:16:32,464 INFO Exception occurs
+2026-09-30 00:16:59,691 INFO  10 divide by 20 is 0.5
+2026-09-30 00:16:59,691 INFO Exception occurs
