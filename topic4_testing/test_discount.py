@@ -1,0 +1,6 @@
+# write test cases for 
+test_normal_Case
+test_bountdary_case
+test_boundry_at_discount
+test_boundary_below_discount
+test_boundary_above_discount
