@@ -34,4 +34,4 @@ def test_total_count(students):
 def test_get_user_name():
     mock_response = Mock()
     mock_response.json.return_value = {"name":"John"}
-    assert app.get_user_name(mock_response) == "Johny"
+    assert app.get_user_name(mock_response) == "John"
