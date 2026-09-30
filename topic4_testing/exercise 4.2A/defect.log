@@ -1,0 +1,395 @@
+EXERCISE 4.2B - FAULT ORDER PROCESSOR
+DEFECT LOG
+
+Project: Fault Order Processor
+Purpose: Record defects identified during debugging and the corrections applied.
+
+
+====================================================================
+DEFECT ID: D001
+====================================================================
+
+Defect:
+Incorrect calculation of the order subtotal.
+
+Original Code:
+subtotal = price + quantity
+
+Expected Rule:
+subtotal = price * quantity
+
+Example:
+Price = 50
+Quantity = 5
+
+Expected:
+50 * 5 = 250
+
+Actual Before Correction:
+50 + 5 = 55
+
+Correction:
+Changed the calculation from addition to multiplication.
+
+Corrected Code:
+subtotal = price * quantity
+
+Impact:
+The incorrect subtotal caused the discount, shipping and final
+order total to be calculated incorrectly.
+
+Status:
+FIXED
+
+Verification:
+Input: price = 50, quantity = 5
+Expected subtotal: 250
+Result after correction: 250
+
+
+====================================================================
+DEFECT ID: D002
+====================================================================
+
+Defect:
+Incorrect shipping condition.
+
+Original Code:
+if amount_after_discount > 50:
+
+Expected Rule:
+Shipping charge of 5 should be applied when the amount after
+discount is below 50.
+
+Correction:
+Changed the comparison operator from ">" to "<".
+
+Corrected Code:
+if amount_after_discount < 50:
+    shipping = 5
+else:
+    shipping = 0
+
+Impact:
+The incorrect comparison caused shipping to be applied to orders
+above the required threshold instead of orders below the threshold.
+
+Status:
+FIXED
+
+Verification:
+Input: price = 10, quantity = 4
+Subtotal = 40
+Discount = 0
+Amount after discount = 40
+
+Expected shipping = 5
+Expected final total = 45
+
+Result after correction:
+45
+
+
+====================================================================
+DEFECT ID: D003
+====================================================================
+
+Defect:
+Quantity validation allowed a quantity of zero.
+
+Original Code:
+if quantity < 0:
+
+Expected Rule:
+Quantity must be greater than 0.
+
+Therefore, both zero and negative quantities must be rejected.
+
+Correction:
+Changed the condition from "< 0" to "<= 0".
+
+Corrected Code:
+if quantity <= 0:
+    raise ValueError("Quantity must be greater than 0")
+
+Impact:
+A quantity of zero could previously be processed even though it is
+not a valid order quantity.
+
+Status:
+FIXED
+
+Verification:
+Input:
+price = 10
+quantity = 0
+
+Expected:
+ValueError should be raised.
+
+Result after correction:
+"Quantity must be greater than 0"
+
+
+====================================================================
+DEFECT ID: D004
+====================================================================
+
+Defect:
+No validation was present to prevent a negative price.
+
+Original Code:
+No price validation was present.
+
+Expected Rule:
+Price must not be negative.
+
+Correction:
+Added price validation.
+
+Corrected Code:
+if price <= 0:
+    raise ValueError("Price must be a positive number")
+
+Impact:
+Negative prices could be accepted and used in order calculations,
+which could produce an invalid order total.
+
+Status:
+FIXED
+
+Verification:
+Input:
+price = -5
+quantity = 10
+
+Expected:
+ValueError should be raised.
+
+Result after correction:
+"Price must be a positive number"
+
+
+====================================================================
+DEFECT ID: D005
+====================================================================
+
+Defect:
+Incorrect test expectation for the order with price 10 and
+quantity 4.
+
+Calculation after correcting the subtotal and shipping logic:
+
+Price = 10
+Quantity = 4
+
+Subtotal:
+10 * 4 = 40
+
+Discount:
+0 because subtotal is not greater than 100
+
+Amount after discount:
+40
+
+Shipping:
+5 because amount after discount is below 50
+
+Final total:
+40 + 5 = 45
+
+Expected result:
+45
+
+Note:
+The original comment stated:
+
+print(final_cost)  # 205
+
+This expected value is incorrect according to the stated order
+calculation rules.
+
+Correction:
+Update the expected test result from 205 to 45.
+
+Corrected Test:
+final_cost = calculate_order_total(10, 4)
+print(final_cost)  # 45
+
+Impact:
+An incorrect expected result could make a correctly functioning
+program appear to have a defect.
+
+Status:
+FIXED
+
+Verification:
+Expected = 45
+Actual = 45
+
+
+====================================================================
+DEFECT ID: D006
+====================================================================
+
+Defect:
+The function catches all exceptions and only prints the error.
+
+Original Code:
+except Exception as e:
+    print(e)
+
+Issue:
+The function does not return an error value when an exception occurs.
+The exception is handled inside the function.
+
+Impact:
+Calling code cannot directly determine that the calculation failed
+through an exception.
+
+Current Behaviour:
+Invalid inputs such as quantity = 0 or price = -5 result in an
+error message being printed.
+
+Status:
+REVIEWED
+
+Note:
+This behaviour may be acceptable for a simple classroom exercise,
+but in production code it would usually be better to handle the
+specific ValueError or allow the exception to be handled by the
+calling code.
+
+
+====================================================================
+DEFECT ID: D007
+====================================================================
+
+Defect:
+Error messages contained typing and wording issues.
+
+Original Code:
+raise ValueError("Quantity ,must be greater than 0")
+
+raise ValueError("Price , must be a postive no ")
+
+Correction:
+Improved the messages so that they are clear and correctly written.
+
+Corrected Code:
+raise ValueError("Quantity must be greater than 0")
+
+raise ValueError("Price must be a positive number")
+
+Impact:
+Clear error messages make debugging and troubleshooting easier.
+
+Status:
+FIXED
+
+
+====================================================================
+DEFECT SUMMARY
+====================================================================
+
+D001 - Incorrect subtotal calculation
+       Status: FIXED
+
+D002 - Incorrect shipping comparison operator
+       Status: FIXED
+
+D003 - Quantity validation did not reject zero
+       Status: FIXED
+
+D004 - Missing negative price validation
+       Status: FIXED
+
+D005 - Incorrect expected output for price 10, quantity 4
+       Status: FIXED
+
+D006 - Broad exception handling
+       Status: REVIEWED
+
+D007 - Incorrect/unclear error messages
+       Status: FIXED
+
+
+====================================================================
+FINAL VERIFICATION
+====================================================================
+
+Test Case 1:
+Input:
+price = 50
+quantity = 5
+
+Calculation:
+Subtotal = 50 * 5 = 250
+Discount = 25
+Amount after discount = 225
+Shipping = 0
+
+Expected final total = 225
+
+
+Test Case 2:
+Input:
+price = 10
+quantity = 5
+
+Calculation:
+Subtotal = 10 * 5 = 50
+Discount = 0
+Amount after discount = 50
+Shipping = 0
+
+Expected final total = 50
+
+
+Test Case 3:
+Input:
+price = 10
+quantity = 4
+
+Calculation:
+Subtotal = 10 * 4 = 40
+Discount = 0
+Amount after discount = 40
+Shipping = 5
+
+Expected final total = 45
+
+
+Test Case 4:
+Input:
+price = 10
+quantity = 0
+
+Expected:
+Validation error:
+"Quantity must be greater than 0"
+
+
+Test Case 5:
+Input:
+price = -5
+quantity = 10
+
+Expected:
+Validation error:
+"Price must be a positive number"
+
+
+====================================================================
+OVERALL STATUS
+====================================================================
+
+Main calculation defects identified and corrected.
+
+The corrected program now:
+- Calculates subtotal using price * quantity.
+- Applies a 10% discount when subtotal is greater than 100.
+- Applies £5 shipping when the amount after discount is below 50.
+- Rejects quantities of 0 or below.
+- Rejects prices of 0 or below.
+- Returns the final order total for valid orders.
