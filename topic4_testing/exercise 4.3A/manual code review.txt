@@ -1,0 +1,36 @@
+BASELINE OUTPUT
+Customer: Aisha
+Price: 30
+Quantity: 2
+Subtotal: 60
+Discount: 0
+Member discount: 0
+Final total: 60
+Order status: Small
+Customer: Aisha
+Final total: 60
+
+Customer: Ben
+Price: 60
+Quantity: 2
+Subtotal: 120
+Discount: 12.0
+Member discount: 6.0
+Final total: 102.0
+Order status: Standard
+Customer: Ben
+Final total: 102.0
+
+Customer: Chloe
+Price: 50
+Quantity: 3
+Subtotal: 150
+Discount: 15.0
+Member discount: 0
+Final total: 135.0
+Order status: Standard
+Customer: Chloe
+Final total: 135.0
+
+
+1 Add  docstring to function 

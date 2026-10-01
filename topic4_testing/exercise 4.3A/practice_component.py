@@ -2,16 +2,34 @@
 Exercise 4.3A - Quality Review and Refactor Practice Component
 
 This is a simple working component for a quality review exercise.
-
-Learner instructions:
-- Run the program first and record the output.
-- Review the code for naming, formatting, readability and duplication.
-- Run Black, Ruff or Pylint as instructed by the tutor.
-- Make controlled improvements without changing the required behaviour.
-- Run the same test cases again after refactoring.
 """
 
-def process_order(customer, price, quantity, member):
+
+def process_order(customer: str, price: float, quantity: int, member: bool) -> str:
+    """Calculate the total for a customer order and return a status summary.
+
+    This function calculates the subtotal for an order, applies discounts based on
+    order value and membership status, and returns a formatted message describing
+    the customer's purchase and final order status.
+
+    Args:
+        customer (str): The name of the customer placing the order.
+        price (float): The unit price of each item in the order.
+        quantity (int): The number of items ordered.
+        member (bool): True if the customer is a member and eligible for the
+            membership discount; False otherwise.
+
+    Returns:
+        str: A multi-line summary containing the customer name, unit price,
+        quantity, subtotal, applicable discounts, final total, and order status.
+
+    Notes:
+        - A 10% discount is applied when the subtotal exceeds 100.
+        - A 5% membership discount is applied only if `member` is True.
+        - The order is classified as "Standard" when the final total is at least
+          100, otherwise it is classified as "Small".
+    """
+
     subtotal = price * quantity
 
     if subtotal > 100:
@@ -19,33 +37,30 @@ def process_order(customer, price, quantity, member):
     else:
         discount = 0
 
-    if member == True:
+    if member:
         member_discount = subtotal * 0.05
     else:
         member_discount = 0
 
     total = subtotal - discount - member_discount
 
-    print("Customer:", customer)
-    print("Price:", price)
-    print("Quantity:", quantity)
-    print("Subtotal:", subtotal)
-    print("Discount:", discount)
-    print("Member discount:", member_discount)
-    print("Final total:", total)
+    message = f"Customer: {customer} \n Price: {price} \n Quantity:  {quantity} \n Subtotal {subtotal} \n"
+    message = message+ f"Discount : {discount} \n member_discount: {member_discount} \n Final Total {total} \n"
+    
 
     if total >= 100:
-        print("Order status: Standard")
+        message = message + "Order status: Standard \n"
     else:
-        print("Order status: Small")
-
-    print("Customer:", customer)
-    print("Final total:", total)
+        message = message + "Order status: Small \n"
+    return message
+    # below two are the repeated statements
+    # print("Customer:", customer)
+    # print("Final total:", total)
 
 
 # Test cases
-process_order("Aisha", 30, 2, False)
-print()
-process_order("Ben", 60, 2, True)
-print()
-process_order("Chloe", 50, 3, False)
+
+print(process_order("Aisha", 30, 2, False))
+
+print(process_order("Ben", 60, 2, True))
+print(process_order("Chloe", 50, 3, False))
