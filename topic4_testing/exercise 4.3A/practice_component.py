@@ -58,7 +58,6 @@ def process_order(customer: str, price: float, quantity: int, member: bool) -> s
     # print("Final total:", total)
 
 
-# Test cases
 
 print(process_order("Aisha", 30, 2, False))
 
